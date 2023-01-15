@@ -94,13 +94,7 @@ resource "aws_route_table_association" "myapp-rtass" {
   associate_public_ip_address =  true
   key_name = var.key_pair
 
-  user_data = <<EOF
-             #!/bin/bash
-             sudo yum update -y && sudo yum install -y docker
-             sudo systemctl start docker
-             sudo usermod -aG docker ec2-user
-             docker run -p 8080:80 nginx
-           EOF
+  user_data = file("entry-sript.sh")
 
    tags = {
       name = "${var.env_prefix}- server"  
